@@ -48,6 +48,20 @@ const connectToDB = async() => {    // the async keyword makes this function an 
     }
 }
 
+
+
+const addStudent = async(StudentObj) => { // StudentObj is a JSON object conforming to our defined schema
+    try {
+        const newStudent = new Student(StudentObj);  // this creates a new Student document based on StudentObj, but doesn't add it just yet.
+        let savePromise = newStudent.save();   // You don't need this Promise, unless you want to do something based on the completion of the save method.
+        // If you do want ot do something based on the save() Promise, use then()
+
+        return savePromise;
+    }
+    catch (err) {
+        console.log(err);
+    }
+}
 // Write a function that can read all students documents
 const getstudents = async() => {
     // use a try/catch because of IO code
@@ -72,6 +86,14 @@ const main = async() => {
     // Call your other async functions here.
     // You can also write regular JS code here as well.
     await connectToDB();
+    let student ={
+        firstname: "Kwizera",   // "Float" should be a defined Mongoose datatype. UPDATE: FLoat is not a valid Mongoose type, Number is the type for float
+        lastname: "Johny",
+        phone: "8066666666",
+        email: "pato@gmail.com"
+    }
+    await addStudent(student);
+
     await getstudents();
 }
 
